@@ -4,18 +4,14 @@ import { Link } from "react-router-dom";
 
 const MealCard = ({ image, title, rating, price, id }) => {
   return (
-    <Link
-      to={`/meal/${id}`}
-      className="overflow-hidden group bg-white rounded-lg shadow-lg"
-    >
-      <div className="min-w-[200px] aspect-square relative">
+    <div className="overflow-hidden group bg-white rounded-lg shadow-lg">
+      <div className="aspect-square w-full relative overflow-hidden rounded-xl">
         <img
+          className="object-cover h-full w-full group-hover:scale-110 transition"
           src={image}
-          alt=""
-          width="200px"
-          className="object-cover group-hover:scale-110 transition duration-500"
+          alt="Room"
         />
-        <div className="absolute inset-0 bg-gray-500 opacity-20"></div>
+        <div className="absolute inset-0 bg-gray-500 opacity-10"></div>
       </div>
       <div className="border border-t-0">
         <div className="p-4 md:p-4 flex justify-between">
@@ -29,12 +25,15 @@ const MealCard = ({ image, title, rating, price, id }) => {
         </div>
         <div className="flex justify-between pt-0 p-4 items-center">
           <h1 className="text-lg font-bold text-gray-700">${price}</h1>
-          <button className="bg-yellow-500 text-blue-800 px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors duration-300">
+          <Link
+            to={`/meal/${id}`}
+            className="bg-yellow-500 text-blue-800 px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors duration-300"
+          >
             Search
-          </button>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
