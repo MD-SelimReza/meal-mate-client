@@ -78,7 +78,7 @@ const SignIn = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#2563eb" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -117,7 +117,7 @@ const SignIn = () => {
               margin="normal"
               fullWidth
               label="Password"
-              type="text"
+              type={showPassword ? "text" : "password"}
               id="password"
               placeholder="Enter password"
               autoComplete="current-password"
@@ -154,7 +154,12 @@ const SignIn = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mb: 2, py: 1.5 }}
+              sx={{
+                mb: 2,
+                py: 1.5,
+                backgroundColor: "#2563eb",
+                "&:hover": { backgroundColor: "#1d4ed8" },
+              }}
             >
               {loading ? (
                 <TbFidgetSpinner className="animate-spin m-auto text-teal-500" />
@@ -163,7 +168,11 @@ const SignIn = () => {
               )}
             </Button>
           </div>
-          <Link href="#" variant="body2">
+          <Link
+            href="#"
+            variant="body2"
+            sx={{ color: "#2563eb", textDecoration: "underline" }}
+          >
             Forgot password?
           </Link>
         </form>
@@ -181,11 +190,22 @@ const SignIn = () => {
             cursor: loading ? "not-allowed" : "pointer",
             padding: "8px 16px",
             my: 2,
+            borderColor: "#2563eb",
+            color: "#2563eb",
+            "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
           Login with Google
         </Button>
-        <Link href="/signUp" variant="body2" sx={{ textAlign: "center" }}>
+        <Link
+          href="/signUp"
+          variant="body2"
+          sx={{
+            textAlign: "center",
+            color: "#2563eb",
+            textDecoration: "underline",
+          }}
+        >
           {"Don't have an account? Sign Up"}
         </Link>
       </div>

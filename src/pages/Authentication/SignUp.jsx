@@ -87,7 +87,7 @@ const SignUp = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#2563eb" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -219,6 +219,8 @@ const SignUp = () => {
             cursor: loading ? "not-allowed" : "pointer",
             padding: "8px 16px",
             my: 2,
+            color: "#1f2937",
+            borderColor: "#2563eb",
           }}
         >
           Login with Google

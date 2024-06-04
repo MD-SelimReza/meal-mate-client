@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Logo from "../Logo";
 import NavbarLink from "../Menu/NavbarLink";
+import CommonBtn from "../Button/CommonBtn";
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
@@ -28,12 +29,7 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-4">{navLinks}</div>
           {!user && !loading ? (
             <div>
-              <Link
-                to="/signIn"
-                className="border border-yellow-400 px-4 py-2 rounded-lg transition transform duration-300 hover:scale-105"
-              >
-                Join Us
-              </Link>
+              <CommonBtn outline address="/signIn" label="Join Us" color />
             </div>
           ) : (
             <div className="relative">
