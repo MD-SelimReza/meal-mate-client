@@ -5,148 +5,17 @@ import CustomTabPanel from "./CustomTabPanel";
 import a11yProps from "./a11yProps";
 import MealCard from "./MealCard";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosCommon from "../../hooks/useAxiosCommon";
-
-// const meals = {
-//   Breakfast: [
-//     {
-//       title: "Pancakes",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4,
-//       price: 5.99,
-//     },
-//     {
-//       title: "Omelette",
-//       image: "https://via.placeholder.com/150",
-//       rating: 5,
-//       price: 4.99,
-//     },
-//     {
-//       title: "Smoothie",
-//       image: "https://via.placeholder.com/150",
-//       rating: 3,
-//       price: 3.99,
-//     },
-//   ],
-//   Lunch: [
-//     {
-//       title: "Burger",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.3,
-//       price: 7.99,
-//     },
-//     {
-//       title: "Salad",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.6,
-//       price: 6.99,
-//     },
-//     {
-//       title: "Pasta",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.8,
-//       price: 8.99,
-//     },
-//   ],
-//   Dinner: [
-//     {
-//       title: "Steak",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.9,
-//       price: 14.99,
-//     },
-//     {
-//       title: "Salmon",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.5,
-//       price: 13.99,
-//     },
-//     {
-//       title: "Pizza",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.4,
-//       price: 9.99,
-//     },
-//   ],
-//   "All Meals": [
-//     {
-//       title: "Pancakes",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.5,
-//       price: 5.99,
-//     },
-//     {
-//       title: "Omelette",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.0,
-//       price: 4.99,
-//     },
-//     {
-//       title: "Smoothie",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.7,
-//       price: 3.99,
-//     },
-//     {
-//       title: "Burger",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.3,
-//       price: 7.99,
-//     },
-//     {
-//       title: "Salad",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.6,
-//       price: 6.99,
-//     },
-//     {
-//       title: "Pasta",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.8,
-//       price: 8.99,
-//     },
-//     {
-//       title: "Steak",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.9,
-//       price: 14.99,
-//     },
-//     {
-//       title: "Salmon",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.5,
-//       price: 13.99,
-//     },
-//     {
-//       title: "Pizza",
-//       image: "https://via.placeholder.com/150",
-//       rating: 4.4,
-//       price: 9.99,
-//     },
-//   ],
-// };
+import useMeal from "../../hooks/useMeal";
 
 const BasicTabs = () => {
   const categories = ["Breakfast", "Lunch", "Dinner", "All Meals"];
-  const axiosCommon = useAxiosCommon();
-  const { data: meals = [] } = useQuery({
-    queryKey: ["meals"],
-    queryFn: async () => {
-      const { data } = await axiosCommon("/meals");
-      return data;
-    },
-  });
-
-  console.log(meals);
+  const { meals } = useMeal();
 
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  // const categories = Object.keys(meals);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -175,7 +44,7 @@ const BasicTabs = () => {
       </Box>
       {categories.map((category, index) => (
         <CustomTabPanel key={index} value={value} index={index}>
-          <div className="flex flex-wrap justify-center gap-10">
+          <div className="flex flex-wrap justify-center gap-5">
             {(meals.filter((meal) => meal.category === category).length > 0
               ? meals.filter((meal) => meal.category === category)
               : meals
@@ -184,7 +53,9 @@ const BasicTabs = () => {
                 key={mealIndex}
                 id={meal._id}
                 title={meal.title}
-                image={"https://i.ibb.co/WDKRDcr/16-2.jpg"}
+                image={
+                  "https://opencart.dostguru.com/FD01/flavoro_02/image/cache/catalog/product/27-543x543.jpg"
+                }
                 rating={meal.rating}
                 description="Description"
                 price={meal.price}

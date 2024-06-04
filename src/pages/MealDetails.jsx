@@ -24,17 +24,17 @@ const MealDetails = () => {
 
   return (
     <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl w-full md:flex">
-          <div className="md:w-1/2">
+      <div className="flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl w-full gap-5 md:flex">
+          <div className="md:w-2/5">
             <img
               className="w-full object-cover"
               src="https://opencart.dostguru.com/FD01/flavoro_02/image/cache/catalog/product/27-543x543.jpg" // replace with the correct path to your image
               alt="Meal"
             />
           </div>
-          <div className="bg-white p-8 md:w-1/2">
-            <h2 className="text-gray-900 text-2xl font-bold">
+          <div className="bg-white md:w-3/5 z-10">
+            <h2 className="text-gray-600 text-2xl">
               Pretium Euismod Dui Fermentum Quis
             </h2>
             <div className="flex items-center mt-2">
@@ -45,7 +45,9 @@ const MealDetails = () => {
               </a>
             </div>
             <div className="mt-4">
-              <span className="text-3xl font-semibold">$602.00</span>
+              <span className="text-2xl text-gray-700 font-semibold">
+                $602.00
+              </span>
             </div>
             <div className="mt-4">
               <p className="text-sm text-gray-600">

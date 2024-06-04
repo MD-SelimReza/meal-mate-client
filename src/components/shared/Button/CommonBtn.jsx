@@ -8,11 +8,11 @@ const CommonBtn = ({ outline, address, label, color }) => {
       href={address ? address : ""}
       color={color ? "warning" : "primary"}
       sx={{
-        background: outline ? "transparent" : "primary",
-        color: outline ? "#EAB308" : "white",
-        border: outline ? "1px solid #EAB308" : "none",
+        background: outline ? "transparent" : "#F59E0B",
+        color: outline ? "#F59E0B" : "#1E3A8A",
+        border: outline ? "1px solid #F59E0B" : "none",
         "&:hover": {
-          border: outline ? "1px solid #EAB308" : "none",
+          border: outline ? "1px solid #F59E0B" : "none",
         },
       }}
     >

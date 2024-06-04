@@ -6,6 +6,7 @@ import SignIn from "../pages/Authentication/SignIn";
 import SignUp from "../pages/Authentication/SignUp";
 import ErrorPage from "../pages/ErrorPage";
 import MealDetails from "../pages/MealDetails";
+import Meals from "../pages/Meals";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/meals",
+        element: <Meals />,
+      },
+      {
+        path: "/upcoming-meals",
+        element: <p>Upcoming meals</p>,
       },
     ],
   },

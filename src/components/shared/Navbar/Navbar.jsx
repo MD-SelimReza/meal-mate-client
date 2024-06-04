@@ -16,8 +16,8 @@ const Navbar = () => {
     <>
       <NavbarLink address="/" label="Home" />
       <NavbarLink address="/about" label="About Us" />
-      <NavbarLink address="/services" label="Services" />
-      <NavbarLink address="/contact" label="Contact Us" />
+      <NavbarLink address="/meals" label="Meals" />
+      <NavbarLink address="/upcoming-meals" label="Upcoming Meals" />
     </>
   );
 

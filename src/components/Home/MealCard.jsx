@@ -1,41 +1,37 @@
 import PropTypes from "prop-types";
-import CommonBtn from "../shared/Button/CommonBtn";
+import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const MealCard = ({ image, title, rating, price, description, id }) => {
+const MealCard = ({ image, title, rating, price, id }) => {
   return (
     <Link
       to={`/meal/${id}`}
-      className="max-w-md overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800"
+      className="overflow-hidden group bg-white rounded-lg shadow-lg"
     >
-      <div>
-        <img src={image} alt="" width="250px" />
+      <div className="min-w-[200px] aspect-square relative">
+        <img
+          src={image}
+          alt=""
+          width="200px"
+          className="object-cover group-hover:scale-110 transition duration-500"
+        />
+        <div className="absolute inset-0 bg-gray-500 opacity-20"></div>
       </div>
-      <div className="p-4 md:p-4">
-        <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-          {title}
-        </h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          {description}
-        </p>
-        <div className="flex mt-2 items-center">
-          {Array.from({ length: 5 }, (_, index) => (
-            <svg
-              key={index}
-              className={`w-5 h-5 ${
-                index < rating ? "text-yellow-400" : "text-gray-300"
-              } fill-current`}
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
-            </svg>
-          ))}
+      <div className="border border-t-0">
+        <div className="p-4 md:p-4 flex justify-between">
+          <h1 className="text-xl font-bold text-gray-700">{title}</h1>
+          <p className="text-gray-600 flex gap-2 items-center">
+            <span className="rounded-full text-red-500 bg-yellow-400">
+              <FaRegStar />
+            </span>
+            <span>{rating}</span>
+          </p>
         </div>
-        <div className="flex justify-between mt-3 items-center">
-          <h1 className="text-lg font-bold text-gray-700 dark:text-gray-300 md:text-xl">
-            ${price}
-          </h1>
-          <CommonBtn label="Details" />
+        <div className="flex justify-between pt-0 p-4 items-center">
+          <h1 className="text-lg font-bold text-gray-700">${price}</h1>
+          <button className="bg-yellow-500 text-blue-800 px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors duration-300">
+            Search
+          </button>
         </div>
       </div>
     </Link>
@@ -48,8 +44,6 @@ MealCard.propTypes = {
   id: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  onDetailsClick: PropTypes.func.isRequired,
 };
 
 export default MealCard;
