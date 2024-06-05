@@ -9,6 +9,8 @@ import MealDetails from "../pages/MealDetails";
 import Meals from "../pages/Meals";
 import UpcomingMeals from "../pages/UpcomingMeals";
 import PackageDetails from "../components/Home/PackageDetails";
+import DashboardLayout from "../layouts/DashboardLayout";
+import Root from "../components/Dashboard/Root";
 
 export const router = createBrowserRouter([
   {
@@ -44,4 +46,18 @@ export const router = createBrowserRouter([
   },
   { path: "/signIn", element: <SignIn /> },
   { path: "/signUp", element: <SignUp /> },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <Root />,
+      },
+      {
+        path: "/dashboard/orders",
+        element: <p>Orders page</p>,
+      },
+    ],
+  },
 ]);

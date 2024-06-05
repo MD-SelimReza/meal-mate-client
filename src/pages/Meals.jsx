@@ -5,7 +5,6 @@ import useMeal from "../hooks/useMeal";
 const Meals = () => {
   const { meals, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useMeal();
-  console.log(isLoading);
 
   return (
     <div className="my-10">
