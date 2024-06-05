@@ -60,19 +60,24 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      // if (currentUser) {
-      //   // get token and store client
-      //   const userInfo = { email: currentUser.email };
-      //   axios.post(`${baseURL}/jwt`, userInfo).then((res) => {
-      //     if (res.data.token) {
-      //       localStorage.setItem("access-token", res.data.token);
-      //     }
-      //   });
-      // } else {
-      //   // Remove token if user is logged out
-      //   setUser(currentUser);
-      //   localStorage.removeItem("access-token");
-      // }
+      if (currentUser) {
+        console.log("CurrentUser--->", currentUser);
+        // get token and store client
+        const userInfo = { email: currentUser.email };
+        console.log("userInfo--->", userInfo);
+        if (userInfo) {
+          axios.post(`${baseURL}/jwt`, userInfo).then((res) => {
+            console.log(res);
+            if (res.data.token) {
+              localStorage.setItem("access-token", res.data.token);
+            }
+          });
+        }
+      } else {
+        // Remove token if user is logged out
+        setUser(currentUser);
+        localStorage.removeItem("access-token");
+      }
       setLoading(false);
     });
     return () => {

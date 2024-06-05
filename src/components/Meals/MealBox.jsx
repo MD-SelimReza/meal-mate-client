@@ -1,7 +1,19 @@
 import { FaRegEye, FaRegStar } from "react-icons/fa";
 import PropTypes from "prop-types";
+import DemoModal from "../Modal/DemoModal";
+import { useState } from "react";
 
 const MealBox = ({ image, description, rating, price, id }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <div
       to={`/meal/${id}`}
@@ -12,11 +24,13 @@ const MealBox = ({ image, description, rating, price, id }) => {
         <div className="absolute inset-0 bg-gray-500 opacity-20"></div>
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
+            onClick={openModal}
             title="Quick view"
             className="duration-300 bg-white p-2 rounded-sm hover:bg-yellow-400"
           >
             <FaRegEye className="size-5" />
           </button>
+          <DemoModal isOpen={modalIsOpen} onRequestClose={closeModal} />
         </div>
       </div>
       <div className="bg-[#DBDDE0]">

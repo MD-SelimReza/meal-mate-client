@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 const MealCard = ({ image, title, rating, price, id }) => {
   return (
     <div className="overflow-hidden group bg-white rounded-lg shadow-lg">
-      <div className="aspect-square w-full relative overflow-hidden rounded-xl">
+      <div className="aspect-square w-[200px] relative overflow-hidden">
         <img
-          className="object-cover h-full w-full group-hover:scale-110 transition"
+          className="object-cover group-hover:scale-110 transition"
           src={image}
           alt="Room"
+          width="200px"
         />
         <div className="absolute inset-0 bg-gray-500 opacity-10"></div>
       </div>

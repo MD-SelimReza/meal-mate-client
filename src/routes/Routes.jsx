@@ -8,6 +8,7 @@ import ErrorPage from "../pages/ErrorPage";
 import MealDetails from "../pages/MealDetails";
 import Meals from "../pages/Meals";
 import UpcomingMeals from "../pages/UpcomingMeals";
+import PackageDetails from "../components/Home/PackageDetails";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "/meal/:id",
         element: <MealDetails />,
+      },
+      {
+        path: "/checkout/:package_name",
+        element: <PackageDetails />,
       },
       {
         path: "/about",
