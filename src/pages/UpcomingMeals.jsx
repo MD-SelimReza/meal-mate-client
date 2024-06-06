@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import UpcomingMealCard from "../components/UpcomingMeals/UpcomingMealCard";
 import useMeal from "../hooks/useMeal";
 
@@ -5,6 +6,9 @@ const UpcomingMeals = () => {
   const { meals } = useMeal();
   return (
     <div className="my-10">
+      <Helmet>
+        <title>Upcoming Meals</title>
+      </Helmet>
       <div className="flex flex-wrap justify-center gap-x-6 gap-y-8">
         {meals.map((meal) => (
           <UpcomingMealCard

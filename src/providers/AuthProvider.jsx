@@ -56,18 +56,27 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  // Save user data in db
+  const saveUser = async (user) => {
+    const userInfo = {
+      name: user?.displayName,
+      email: user?.email,
+      image: user?.photoURL,
+      badge: "Bronze",
+    };
+    await axios.post(`${baseURL}/user`, userInfo);
+  };
+
   // onAuthStateChange
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        console.log("CurrentUser--->", currentUser);
+        await saveUser(currentUser);
         // get token and store client
         const userInfo = { email: currentUser.email };
-        console.log("userInfo--->", userInfo);
         if (userInfo) {
-          axios.post(`${baseURL}/jwt`, userInfo).then((res) => {
-            console.log(res);
+          await axios.post(`${baseURL}/jwt`, userInfo).then((res) => {
             if (res.data.token) {
               localStorage.setItem("access-token", res.data.token);
             }

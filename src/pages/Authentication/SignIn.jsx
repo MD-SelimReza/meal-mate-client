@@ -24,7 +24,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
-  const { signInWithGoogle, signIn, user, loading, setLoading } = useAuth();
+  const { signInWithGoogle, signIn, user, loading } = useAuth();
 
   useEffect(() => {
     if (user && loading) {
@@ -44,15 +44,17 @@ const SignIn = () => {
     const { email, password } = data;
     if (!/^(?=.*[a-z])(?=.*[A-Z])[A-Za-z]{6,}$/.test(password)) {
       toast.error(
-        "Password must be at least 6 characters long and contain at least one uppercase and lowercase letter"
+        "Password must be 6+ characters with at least one uppercase and one lowercase letter."
       );
       return;
     }
     try {
-      await signIn(email, password);
-      setLoading(false);
-      toast.success("Sign In Successful");
-      navigate(location.state || "/");
+      const result = await signIn(email, password);
+
+      if (result?.user) {
+        toast.success("Sign In Successful");
+        navigate(from);
+      }
     } catch (err) {
       toast.error(err?.message);
     }
@@ -60,9 +62,11 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
-      toast.success("Sign Up successful");
-      navigate(from);
+      const result = await signInWithGoogle();
+      if (result?.user) {
+        toast.success("Sign In Successful");
+        navigate(from);
+      }
     } catch (err) {
       toast.error(err?.message);
     }
@@ -178,7 +182,7 @@ const SignIn = () => {
         </form>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 bg-gray-500"></div>
-          <div className="px-3 text-gray-700">Login with social accounts</div>
+          <div className="px-3 text-gray-700">signIn with social accounts</div>
           <div className="flex-1 h-px sm:w-16 bg-gray-500"></div>
         </div>
         <Button
@@ -195,7 +199,7 @@ const SignIn = () => {
             "&:hover": { backgroundColor: "#e0e0e0" },
           }}
         >
-          Login with Google
+          signIn with Google
         </Button>
         <Link
           href="/signUp"

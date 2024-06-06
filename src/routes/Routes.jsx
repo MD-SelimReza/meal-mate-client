@@ -11,6 +11,8 @@ import UpcomingMeals from "../pages/UpcomingMeals";
 import PackageDetails from "../components/Home/PackageDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Root from "../components/Dashboard/Root";
+import Profile from "../pages/Dashboard/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +30,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/checkout/:package_name",
-        element: <PackageDetails />,
+        element: (
+          <PrivateRoute>
+            <PackageDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/about",
@@ -48,15 +54,19 @@ export const router = createBrowserRouter([
   { path: "/signUp", element: <SignUp /> },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
         element: <Root />,
       },
       {
-        path: "/dashboard/orders",
-        element: <p>Orders page</p>,
+        path: "/dashboard/profile",
+        element: <Profile />,
       },
     ],
   },

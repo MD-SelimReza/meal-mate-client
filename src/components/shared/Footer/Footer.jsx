@@ -29,8 +29,8 @@ const Footer = () => {
             <Link to="/contact" className="hover:underline mb-2">
               Contact
             </Link>
-            <Link to="/login" className="hover:underline">
-              Login
+            <Link to="/signIn" className="hover:underline">
+              Sign In
             </Link>
           </div>
           <div className="flex flex-col items-center md:items-start">

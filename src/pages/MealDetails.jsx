@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useState } from "react";
 import ReviewSection from "../components/MealDetailPage/ReviewSection";
+import { Helmet } from "react-helmet-async";
 
 const MealDetails = () => {
   const [liked, setLiked] = useState(false);
@@ -20,10 +21,12 @@ const MealDetails = () => {
       return data;
     },
   });
-  console.log(mealId, data);
 
   return (
     <div>
+      <Helmet>
+        <title>{data.title} Details</title>
+      </Helmet>
       <div className="flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full gap-5 md:flex">
           <div className="md:w-2/5">

@@ -42,6 +42,7 @@ const Navbar = () => {
                     className="rounded-full size-10"
                     referrerPolicy="no-referrer"
                     src={user && user.photoURL ? user.photoURL : "Image"}
+                    title={user?.displayName}
                     alt="profile"
                     height="30"
                     width="30"

@@ -1,6 +1,7 @@
 import InfiniteScroll from "react-infinite-scroller";
 import MealBox from "../components/Meals/MealBox";
 import useMeal from "../hooks/useMeal";
+import { Helmet } from "react-helmet-async";
 
 const Meals = () => {
   const { meals, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -8,6 +9,9 @@ const Meals = () => {
 
   return (
     <div className="my-10">
+      <Helmet>
+        <title>Meals</title>
+      </Helmet>
       <InfiniteScroll
         pageStart={0}
         loadMore={fetchNextPage}

@@ -16,10 +16,17 @@ import Drawer from "../../components/Dashboard/Drawer";
 import DrawerHeader from "../../components/Dashboard/DrawerHeader";
 import { AdminListItem } from "../../components/Dashboard/ListItem/AdminListItem";
 import { UserListItem } from "../../components/Dashboard/ListItem/UserListItem";
+import Logo from "../../components/shared/Logo";
+import useAdmin from "../../hooks/useAdmin";
+import Loader from "../../components/shared/Loader";
 
 const Home = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [isAdmin, isAdminLoading] = useAdmin();
+
+  if (isAdminLoading) return <Loader />;
+  console.log(isAdmin.admin);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -47,7 +54,7 @@ const Home = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+            <Logo />
           </Typography>
         </Toolbar>
       </AppBar>
@@ -63,9 +70,11 @@ const Home = () => {
         </DrawerHeader>
         <Divider />
         <List component="nav">
-          {AdminListItem}
-          <Divider sx={{ my: 1 }} />
-          {UserListItem}
+          {isAdmin && isAdmin?.admin ? (
+            <div>{AdminListItem}</div>
+          ) : (
+            <div>{UserListItem}</div>
+          )}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

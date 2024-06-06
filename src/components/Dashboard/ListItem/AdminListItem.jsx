@@ -13,8 +13,8 @@ export const AdminListItem = (
       icon={<DashboardIcon />}
     />
     <ListItemLink
-      to="/dashboard/orders"
-      primary="Orders"
+      to="/dashboard/profile"
+      primary="Profile"
       icon={<ShoppingCartIcon />}
     />
     <ListItemLink to="/customers" primary="Customers" icon={<PeopleIcon />} />

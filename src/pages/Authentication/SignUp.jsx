@@ -19,20 +19,15 @@ import UploadBtn from "../../components/shared/Button/UploadBtn";
 import { useForm } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
-  const {
-    user,
-    createUser,
-    signInWithGoogle,
-    updateUserProfile,
-    loading,
-    setLoading,
-  } = useAuth();
+  const { user, createUser, signInWithGoogle, updateUserProfile, loading } =
+    useAuth();
 
   const {
     register,
@@ -45,29 +40,27 @@ const SignUp = () => {
   const handleSignUp = async (data) => {
     const { name, email, files, password } = data;
     const image = files[0];
+    const image_url = await imageUpload(image);
 
     try {
-      setLoading(true);
-      const image_url = await imageUpload(image);
-
-      await createUser(email, password);
-
+      const result = await createUser(email, password);
       await updateUserProfile(name, image_url);
-      alert("Sign up successful");
-      navigate(from);
+      if (result?.user) {
+        toast.success("Sign Up Successful!");
+        navigate(location.state || "/");
+      }
     } catch (err) {
-      console.log(err);
-      alert(err?.message);
+      toast.error(err?.message);
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      alert("Sign Up successful");
+      toast.success("Sign In successful");
       navigate(from);
     } catch (err) {
-      alert(err?.message);
+      toast.error(err?.message);
     }
   };
 
@@ -207,7 +200,7 @@ const SignUp = () => {
         </form>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 bg-gray-500"></div>
-          <div className="px-3 text-gray-700">Login with social accounts</div>
+          <div className="px-3 text-gray-700">signIn with social accounts</div>
           <div className="flex-1 h-px sm:w-16 bg-gray-500"></div>
         </div>
         <Button
@@ -223,7 +216,7 @@ const SignUp = () => {
             borderColor: "#2563eb",
           }}
         >
-          Login with Google
+          signIn with Google
         </Button>
         <Link href="/signIn" variant="body2" sx={{ textAlign: "center" }}>
           {"Already have an account? Sign In"}
