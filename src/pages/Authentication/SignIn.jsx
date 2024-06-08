@@ -23,7 +23,8 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state || "/";
+  console.log(location);
+  const from = location.state?.from?.pathname || "/";
   const { signInWithGoogle, signIn, user, loading } = useAuth();
 
   useEffect(() => {

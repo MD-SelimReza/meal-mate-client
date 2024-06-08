@@ -5,6 +5,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { imageUpload } from "../../../utils/imageUpload";
+import SectionTitle from "../../../components/shared/SectionTitle";
 
 const AddMealForm = () => {
   const { user } = useAuth();
@@ -27,16 +28,10 @@ const AddMealForm = () => {
 
   return (
     <div className="mx-auto mt-8 px-4">
-      <div className="mt-8 text-center">
-        <h2 className="text-3xl mb-2 font-semibold">
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Add New Meal
-          </span>
-        </h2>
-        <p className="text-lg text-gray-700 mb-6">
-          Fill in the details below to add a new meal.
-        </p>
-      </div>
+      <SectionTitle
+        title="Add New Meal"
+        description="Fill in the details below to add a new meal."
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg"
@@ -101,7 +96,7 @@ const AddMealForm = () => {
               <span className="text-red-500">Price is required</span>
             )}
           </div>
-          <div className="flex">
+          <div className="flex gap-4">
             <div>
               <label className="block mb-2 font-semibold">Post Time</label>
               <Controller
@@ -125,10 +120,22 @@ const AddMealForm = () => {
                 )}
               </div>
             </div>
-            <div>
-              {imagePreview && <img src={imagePreview} alt={imageText} />}
-              <p>{imageText}</p>
-            </div>
+            {imagePreview ? (
+              <div className="w-full h-24">
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    className="size-full"
+                    alt={imageText}
+                  />
+                )}
+                <p>{imageText}</p>
+              </div>
+            ) : (
+              <div className="border p-4 w-full font-semibold">
+                Image preview
+              </div>
+            )}
           </div>
         </div>
 

@@ -20,6 +20,10 @@ import UsersReviews from "../pages/Dashboard/Admin/UsersReviews";
 import ServeMeals from "../pages/Dashboard/Admin/ServeMeals";
 import MyReviews from "../pages/Dashboard/Users/MyReviews";
 import PaymentHistory from "../pages/Dashboard/Users/PaymentHistory";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
+import UpcomingMealByLike from "../pages/Dashboard/Admin/UpcomingMealByLike";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -78,37 +82,77 @@ export const router = createBrowserRouter([
       },
       // admin route
       {
+        path: "/dashboard/users",
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
+      },
+      {
         path: "/dashboard/add-meal",
-        element: <AddMealForm />,
+        element: (
+          <AdminRoute>
+            <AddMealForm />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/all-meals",
-        element: <AllMeals />,
+        element: (
+          <AdminRoute>
+            <AllMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/users-reviews",
-        element: <UsersReviews />,
+        element: (
+          <AdminRoute>
+            <UsersReviews />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/serve-meals",
-        element: <ServeMeals />,
+        element: (
+          <AdminRoute>
+            <ServeMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "/dashboard/upcoming-meals",
-        element: <UpcomingMeals />,
+        element: (
+          <AdminRoute>
+            <UpcomingMealByLike />
+          </AdminRoute>
+        ),
       },
       // user route
       {
         path: "/dashboard/request-meals",
-        element: <RequestedMeals />,
+        element: (
+          <UserRoute>
+            <RequestedMeals />
+          </UserRoute>
+        ),
       },
       {
         path: "/dashboard/my-reviews",
-        element: <MyReviews />,
+        element: (
+          <UserRoute>
+            <MyReviews />
+          </UserRoute>
+        ),
       },
       {
         path: "/dashboard/payment-history",
-        element: <PaymentHistory />,
+        element: (
+          <UserRoute>
+            <PaymentHistory />
+          </UserRoute>
+        ),
       },
     ],
   },

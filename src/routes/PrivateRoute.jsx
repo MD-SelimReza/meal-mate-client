@@ -6,13 +6,13 @@ import Loader from "../components/shared/Loader";
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
-  console.log(loading, user);
 
   if (loading) return <Loader />;
 
-  if (user) return children;
+  if (!user)
+    return <Navigate to="/signIn" state={{ from: location }} replace={true} />;
 
-  return <Navigate to="/signIn" state={location.pathname} replace={true} />;
+  return children;
 };
 
 PrivateRoute.propTypes = {

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -26,8 +26,6 @@ const SignUp = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [imageText, setImageText] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location?.state || "/";
   const { user, createUser, signInWithGoogle, updateUserProfile, loading } =
     useAuth();
 
@@ -49,7 +47,7 @@ const SignUp = () => {
       await updateUserProfile(name, image_url);
       if (result?.user) {
         toast.success("Sign Up Successful!");
-        navigate(location.state || "/");
+        navigate("/");
       }
     } catch (err) {
       toast.error(err?.message);
@@ -60,7 +58,7 @@ const SignUp = () => {
     try {
       await signInWithGoogle();
       toast.success("Sign In successful");
-      navigate(from);
+      navigate("/");
     } catch (err) {
       toast.error(err?.message);
     }
@@ -117,7 +115,7 @@ const SignUp = () => {
             {errors.name && (
               <span className="text-red-500">The name field is required</span>
             )}
-            <div className="flex">
+            <div className="flex justify-between items-center border-2 border-dotted p-4 border-blue-500 rounded mt-0">
               <div>
                 <Controller
                   control={control}
@@ -132,15 +130,14 @@ const SignUp = () => {
                   )}
                 />
               </div>
-              <div>
-                {imagePreview && <img src={imagePreview} alt={imageText} />}
-                <p>
-                  {imageText.length > 20
-                    ? `${imageText.split(".")[0].slice(0, 15)}...${
-                        imageText.split(".")[1]
-                      }`
-                    : imageText}
-                </p>
+              <div className="border p-1 rounded">
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    className="w-20 h-14"
+                    alt={imageText}
+                  />
+                )}
               </div>
             </div>
             {errors.image && (

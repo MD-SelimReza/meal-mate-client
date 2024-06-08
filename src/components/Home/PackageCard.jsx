@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const PackageCard = ({ title, price, icon, features }) => {
   return (
@@ -12,6 +13,13 @@ const PackageCard = ({ title, price, icon, features }) => {
       <p className="mt-4 text-lg font-bold text-yellow-600">Price: ${price}</p>
     </Link>
   );
+};
+
+PackageCard.propTypes = {
+  title: PropTypes.string,
+  price: PropTypes.string,
+  icon: PropTypes.string,
+  features: PropTypes.string,
 };
 
 export default PackageCard;
