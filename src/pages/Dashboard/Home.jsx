@@ -9,6 +9,9 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PersonIcon from "@mui/icons-material/Person";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import AppBar from "../../components/Dashboard/AppBar";
@@ -19,8 +22,19 @@ import { UserListItem } from "../../components/Dashboard/ListItem/UserListItem";
 import Logo from "../../components/shared/Logo";
 import useAdmin from "../../hooks/useAdmin";
 import Loader from "../../components/shared/Loader";
+import { Helmet } from "react-helmet-async";
+import ListItemLink from "../../components/Dashboard/ListItem/ListItemLink";
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Tooltip,
+} from "@mui/material";
+import useAuth from "../../hooks/useAuth";
 
 const Home = () => {
+  const { logOut } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [isAdmin, isAdminLoading] = useAdmin();
@@ -38,6 +52,9 @@ const Home = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -69,12 +86,54 @@ const Home = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List component="nav">
-          {isAdmin && isAdmin?.admin ? (
-            <div>{AdminListItem}</div>
-          ) : (
-            <div>{UserListItem}</div>
-          )}
+        <List
+          component="nav"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <Box sx={{ flexGrow: 1 }}>
+            <ListItemLink
+              to="/dashboard"
+              primary="Dashboard"
+              end
+              icon={<DashboardIcon />}
+            />
+            {isAdmin && isAdmin?.admin ? (
+              <Box>{AdminListItem}</Box>
+            ) : (
+              <Box>{UserListItem}</Box>
+            )}
+          </Box>
+          <Divider />
+          <ListSubheader component="div" inset>
+            My Account
+          </ListSubheader>
+          <Box>
+            <ListItemLink
+              to="/dashboard/profile"
+              primary="Profile"
+              icon={<PersonIcon />}
+            />
+            <ListItem
+              onClick={logOut}
+              sx={{
+                color: "#FF0000",
+                "&:hover": {
+                  backgroundColor: "#FF000020",
+                },
+              }}
+            >
+              <Tooltip title="Sign out" placement="right">
+                <ListItemIcon sx={{ color: "#FF0000" }}>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+              </Tooltip>
+              <ListItemText>Sign out</ListItemText>
+            </ListItem>
+          </Box>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

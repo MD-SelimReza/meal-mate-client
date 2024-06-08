@@ -13,6 +13,13 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Root from "../components/Dashboard/Root";
 import Profile from "../pages/Dashboard/Profile";
 import PrivateRoute from "./PrivateRoute";
+import RequestedMeals from "../pages/Dashboard/Users/RequestedMeals";
+import AddMealForm from "../pages/Dashboard/Admin/AddMealForm";
+import AllMeals from "../pages/Dashboard/Admin/AllMeals";
+import UsersReviews from "../pages/Dashboard/Admin/UsersReviews";
+import ServeMeals from "../pages/Dashboard/Admin/ServeMeals";
+import MyReviews from "../pages/Dashboard/Users/MyReviews";
+import PaymentHistory from "../pages/Dashboard/Users/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +67,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // shared route
       {
         index: true,
         element: <Root />,
@@ -67,6 +75,40 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/profile",
         element: <Profile />,
+      },
+      // admin route
+      {
+        path: "/dashboard/add-meal",
+        element: <AddMealForm />,
+      },
+      {
+        path: "/dashboard/all-meals",
+        element: <AllMeals />,
+      },
+      {
+        path: "/dashboard/users-reviews",
+        element: <UsersReviews />,
+      },
+      {
+        path: "/dashboard/serve-meals",
+        element: <ServeMeals />,
+      },
+      {
+        path: "/dashboard/upcoming-meals",
+        element: <UpcomingMeals />,
+      },
+      // user route
+      {
+        path: "/dashboard/request-meals",
+        element: <RequestedMeals />,
+      },
+      {
+        path: "/dashboard/my-reviews",
+        element: <MyReviews />,
+      },
+      {
+        path: "/dashboard/payment-history",
+        element: <PaymentHistory />,
       },
     ],
   },

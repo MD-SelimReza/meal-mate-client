@@ -16,13 +16,15 @@ import {
 } from "@mui/material";
 import { imageUpload } from "../../utils/imageUpload";
 import UploadBtn from "../../components/shared/Button/UploadBtn";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
+  const [imageText, setImageText] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state || "/";
@@ -33,14 +35,14 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSignUp = async (data) => {
-    const { name, email, files, password } = data;
-    const image = files[0];
-    const image_url = await imageUpload(image);
+    const { name, email, image, password } = data;
+    const image_url = await imageUpload(image[0]);
 
     try {
       const result = await createUser(email, password);
@@ -115,9 +117,35 @@ const SignUp = () => {
             {errors.name && (
               <span className="text-red-500">The name field is required</span>
             )}
-            <div>
-              <UploadBtn hook={{ ...register("files", { required: true }) }} />
+            <div className="flex">
+              <div>
+                <Controller
+                  control={control}
+                  name="image"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <UploadBtn
+                      hook={field}
+                      setImagePreview={setImagePreview}
+                      setImageText={setImageText}
+                    />
+                  )}
+                />
+              </div>
+              <div>
+                {imagePreview && <img src={imagePreview} alt={imageText} />}
+                <p>
+                  {imageText.length > 20
+                    ? `${imageText.split(".")[0].slice(0, 15)}...${
+                        imageText.split(".")[1]
+                      }`
+                    : imageText}
+                </p>
+              </div>
             </div>
+            {errors.image && (
+              <span className="text-red-500">The image field is required</span>
+            )}
             <TextField
               margin="normal"
               fullWidth
