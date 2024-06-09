@@ -22,8 +22,8 @@ import MyReviews from "../pages/Dashboard/Users/MyReviews";
 import PaymentHistory from "../pages/Dashboard/Users/PaymentHistory";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
-import UpcomingMealByLike from "../pages/Dashboard/Admin/UpcomingMealByLike";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import UpcomingMealTable from "../pages/Dashboard/Admin/UpcomingMealTabel";
 
 export const router = createBrowserRouter([
   {
@@ -125,7 +125,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/upcoming-meals",
         element: (
           <AdminRoute>
-            <UpcomingMealByLike />
+            <UpcomingMealTable />
           </AdminRoute>
         ),
       },

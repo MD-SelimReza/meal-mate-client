@@ -1,35 +1,16 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
 import useMeal from "../../../hooks/useMeal";
-import ReviewDataRow from "../../../components/TableRows/ReviewDataRow";
 import { CircularProgress } from "@mui/material";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../hooks/useAuth";
-import Loader from "../../../components/shared/Loader";
+import UpcomingMealDataRow from "../../../components/TableRows/UpcomingMealDataRow";
 
 const MyReviews = () => {
-  const { user } = useAuth();
   const { meals, isLoading } = useMeal();
-  const axiosSecure = useAxiosSecure();
-
-  const { data: reviews, isLoading: reviewsLoading } = useQuery({
-    queryKey: ["reviews"],
-    queryFn: async () => {
-      const { data } = await axiosSecure(`/meals/${user?.email}/reviews`);
-      console.log(data);
-      return data;
-    },
-  });
-
-  if (reviewsLoading) return <Loader />;
-
-  console.log(reviews);
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <SectionTitle
-        title="My Reviews Dashboard"
-        description="Explore your reviews in a table showcasing meal titles, likes, your review, options to edit or delete, and buttons to view meals."
+        title="Upcoming Meals"
+        description="Review upcoming meals and publish them to the meal collection. Each row includes meal details and a Publish button for easy management."
       />
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
@@ -46,19 +27,22 @@ const MyReviews = () => {
                       Title
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
-                      Likes
+                      Distributor name
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
-                      Reviews
+                      Post Time
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
-                      Action
+                      Published
+                    </th>
+                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
+                      Add to
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {meals.map((meal) => (
-                    <ReviewDataRow key={meal._id} meal={meal} />
+                    <UpcomingMealDataRow key={meal._id} meal={meal} />
                   ))}
                 </tbody>
               </table>

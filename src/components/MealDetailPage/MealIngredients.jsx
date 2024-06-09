@@ -1,9 +1,9 @@
-const MealIngredients = () => {
-  const categories = ["Breakfast", "Lunch", "Dinner", "All Meals"];
+import PropTypes from "prop-types";
 
+const MealIngredients = ({ ingredients }) => {
   return (
     <div>
-      {categories.map((item, idx) => (
+      {ingredients.map((item, idx) => (
         <p
           key={idx}
           className="text-gray-600 border p-2 first:rounded-t-md last:rounded-b-md"
@@ -13,6 +13,10 @@ const MealIngredients = () => {
       ))}
     </div>
   );
+};
+
+MealIngredients.propTypes = {
+  ingredients: PropTypes.array,
 };
 
 export default MealIngredients;

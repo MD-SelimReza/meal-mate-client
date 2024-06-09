@@ -17,7 +17,10 @@ const RequestedMealDataRow = ({ meal }) => {
         {meal?.rating}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        <button className="text-red-500 p-2 rounded bg-red-100 hover:text-red-700">
+        <button
+          title="Delete"
+          className="text-red-500 p-2 rounded bg-red-100 hover:text-red-700"
+        >
           <DeleteOutlineIcon />
         </button>
       </td>

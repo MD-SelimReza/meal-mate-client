@@ -5,6 +5,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useState } from "react";
 import ReviewSection from "../components/MealDetailPage/ReviewSection";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/shared/Loader";
 
 const MealDetails = () => {
   const [liked, setLiked] = useState(false);
@@ -14,7 +15,11 @@ const MealDetails = () => {
   };
   const { id: mealId } = useParams();
   const axiosCommon = useAxiosCommon();
-  const { data } = useQuery({
+  const {
+    data: meal = [],
+    isLoading: mealLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["meal", mealId],
     queryFn: async () => {
       const { data } = await axiosCommon(`/meal/${mealId}`);
@@ -22,10 +27,12 @@ const MealDetails = () => {
     },
   });
 
+  if (mealLoading) return <Loader />;
+
   return (
     <div>
       <Helmet>
-        <title>{data.title} Details</title>
+        <title>{meal && meal?.title}</title>
       </Helmet>
       <div className="flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full gap-5 md:flex">
@@ -37,60 +44,50 @@ const MealDetails = () => {
             />
           </div>
           <div className="bg-white md:w-3/5 z-10">
-            <h2 className="text-gray-600 text-2xl">
-              Pretium Euismod Dui Fermentum Quis
-            </h2>
+            <h2 className="text-gray-600 text-2xl">{meal.title}</h2>
             <div className="flex items-center mt-2">
               <span className="text-yellow-500">★★★★★</span>
-              <span className="ml-2 text-sm text-gray-600">(2 Reviews)</span>
-              <a href="#" className="ml-4 text-sm text-blue-500 underline">
+              <span className="ml-2 text-sm text-gray-600">
+                ({meal?.reviews?.length || 0} Reviews)
+              </span>
+              <a
+                href="#my-review"
+                className="ml-4 text-sm text-blue-500 underline"
+              >
                 Write a Review
               </a>
             </div>
+            <div>
+              <p>{meal?.description?.slice(0, 100)}</p>
+            </div>
             <div className="mt-4">
               <span className="text-2xl text-gray-700 font-semibold">
-                $602.00
+                Price: ${meal?.price}
               </span>
             </div>
             <div className="mt-4">
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Brand:</span> Apple
+                <span className="font-semibold">Admin:</span> {meal?.name}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Product Code:</span> Product 16
+                <span className="font-semibold">Category:</span>
+                {meal?.category}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Reward Points:</span> 600
+                <span className="font-semibold">Post Time:</span>
+                {meal?.postTime}
               </p>
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">Availability:</span>{" "}
                 <span className="text-green-600">In Stock</span>
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Stock Count:</span> 870
+                <span className="font-semibold">Stock Count:</span> 150
               </p>
             </div>
             <div className="mt-6 flex items-center">
-              <button className="bg-gray-200 text-gray-600 px-4 py-2 rounded-l">
-                -
-              </button>
-              <input
-                type="text"
-                value="1"
-                readOnly
-                className="w-12 text-center border-t border-b border-gray-200"
-              />
-              <button className="bg-gray-200 text-gray-600 px-4 py-2 rounded-r">
-                +
-              </button>
-              <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded ml-4">
-                Basket
-              </button>
-              <button className="bg-gray-200 hover:bg-gray-300 text-gray-600 px-6 py-2 rounded ml-2">
-                ♥
-              </button>
               <button
-                className={`ml-2 px-6 py-2 rounded ${
+                className={`ml-2 px-6 py-3 rounded ${
                   liked
                     ? "bg-red-500 text-white"
                     : "bg-gray-200 text-gray-600 hover:bg-gray-300"
@@ -99,11 +96,20 @@ const MealDetails = () => {
               >
                 {liked ? <FaHeart /> : <FaRegHeart />}
               </button>
+              <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded ml-4">
+                Basket
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <ReviewSection />
+      <ReviewSection
+        description={meal?.description}
+        ingredients={meal?.ingredients}
+        initialReviews={meal?.reviews}
+        mealId={meal._id}
+        refetch={refetch}
+      />
     </div>
   );
 };

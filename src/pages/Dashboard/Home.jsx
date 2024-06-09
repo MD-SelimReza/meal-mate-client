@@ -40,7 +40,6 @@ const Home = () => {
   const [isAdmin, isAdminLoading] = useAdmin();
 
   if (isAdminLoading) return <Loader />;
-  console.log(isAdmin.admin);
 
   const handleDrawerOpen = () => {
     setOpen(true);

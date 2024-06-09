@@ -3,11 +3,14 @@ import DeleteOutlineIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
 
-const ReviewDataRow = ({ meal }) => {
+const MealDataRow = ({ meal }) => {
   return (
     <tr key={meal._id} className="hover:bg-gray-100">
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         {meal?.title}
+      </td>
+      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        Selim Reza
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
         ${meal?.price}
@@ -41,8 +44,8 @@ const ReviewDataRow = ({ meal }) => {
   );
 };
 
-ReviewDataRow.propTypes = {
+MealDataRow.propTypes = {
   meal: PropTypes.object.isRequired,
 };
 
-export default ReviewDataRow;
+export default MealDataRow;

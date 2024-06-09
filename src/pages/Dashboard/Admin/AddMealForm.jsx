@@ -1,3 +1,35 @@
+// {
+//   name: 'selim',
+//   email: 'selim@reza.com',
+//   title: "Pasta Primavera",
+//   category: "Lunch",
+//   image: 'https://i.ibb.co/FHj2GY5/16-2.jpg',
+//   ingredients: [
+//   "Pasta",
+//   "Broccoli",
+//   "Carrots",
+//   "Bell peppers",
+//   "Zucchini",
+//   "Cherry tomatoes",
+//   "Parmesan cheese",
+//   "Olive oil"
+//   ],
+//   description: "Pasta Primavera is a classic Italian dish featuring pasta and fresh vegetables. This vibrant and colorful dish is bursting with flavor and nutrients. It's a perfect choice for a healthy and satisfying lunch or dinner.",
+//   price: 150,
+//   likes: 10,
+//   postTime: ''
+//   reviews: [
+//   {
+//   rating: 5,
+//   comment: "Absolutely delicious! Loved the combination of flavors."
+//   },
+//   {
+//   rating: 4,
+//   comment: "Healthy and filling. Would definitely make it again."
+//   }
+//   ]
+//   },
+
 import { Controller, useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import UploadBtn from "../../../components/shared/Button/UploadBtn";
@@ -6,9 +38,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { imageUpload } from "../../../utils/imageUpload";
 import SectionTitle from "../../../components/shared/SectionTitle";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const AddMealForm = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [startDate, setStartDate] = useState(new Date());
   const [imagePreview, setImagePreview] = useState("");
   const [imageText, setImageText] = useState("");
@@ -20,10 +56,64 @@ const AddMealForm = () => {
     control,
   } = useForm();
 
+  const { mutateAsync } = useMutation({
+    mutationFn: async (mealData) => {
+      const { data } = await axiosSecure.post("/meals", mealData);
+      return data;
+    },
+
+    onSuccess: () => {
+      console.log("Data saved successfully");
+      toast.success("Room Added Successfully!");
+    },
+  });
+
   const onSubmit = async (data) => {
-    const { image } = data;
-    const image_url = await imageUpload(image[0]);
-    console.log(data, image_url); // You can handle form submission here
+    const {
+      name,
+      email,
+      title,
+      category,
+      image,
+      ingredients,
+      description,
+      price,
+      likes,
+      postTime,
+      rating,
+      comment,
+    } = data;
+    const reviews = [];
+    console.log(ingredients.split(","));
+    const review = {
+      rating: rating,
+      comment: comment,
+    };
+
+    reviews.push(...reviews, review);
+
+    console.log(review, likes);
+    const image_url = await imageUpload(image);
+    console.log(data, image_url);
+    const mealData = {
+      name: name,
+      email: email,
+      title: title,
+      category: category,
+      image: image_url,
+      ingredients: ingredients.split(","),
+      description: description,
+      price: price,
+      // likes: likes,
+      postTime: postTime,
+      // reviews: reviews,
+    };
+    console.table(mealData);
+    try {
+      await mutateAsync(mealData);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -43,6 +133,7 @@ const AddMealForm = () => {
               type="text"
               defaultValue={user?.displayName}
               readOnly
+              {...register("name")}
               className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -50,6 +141,7 @@ const AddMealForm = () => {
             <label className="block mb-2 font-semibold">Admin email</label>
             <input
               defaultValue={user.email}
+              {...register("email")}
               className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -172,15 +264,6 @@ const AddMealForm = () => {
             {errors.image && (
               <span className="text-red-500">The image field is required</span>
             )}
-            {/* <input
-              type="file"
-              {...register("image", { required: true })}
-              accept="image/*"
-              className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:border-blue-500"
-            />
-            {errors.image && (
-              <span className="text-red-500">Image is required</span>
-            )} */}
           </div>
         </div>
 
@@ -195,15 +278,15 @@ const AddMealForm = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block mb-2 font-semibold">Likes</label>
             <input
               type="number"
-              {...register("like", { required: true })}
+              {...register("likes", { required: true })}
               className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:border-blue-500"
             />
-            {errors.like && (
+            {errors.likes && (
               <span className="text-red-500">Likes is required</span>
             )}
           </div>
@@ -223,13 +306,13 @@ const AddMealForm = () => {
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Reviews</label>
           <textarea
-            {...register("review", { required: true })}
+            {...register("comment", { required: true })}
             className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:border-blue-500"
           ></textarea>
-          {errors.review && (
-            <span className="text-red-500">Reviews is required</span>
+          {errors.comment && (
+            <span className="text-red-500">Review is required</span>
           )}
-        </div>
+        </div> */}
 
         <button
           type="submit"

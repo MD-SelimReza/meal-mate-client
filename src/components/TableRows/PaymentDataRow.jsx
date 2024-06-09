@@ -12,6 +12,12 @@ const PaymentDataRow = ({ meal }) => {
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         {meal.category}
       </td>
+      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        Gold
+      </td>
+      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+        985793875
+      </td>
     </tr>
   );
 };

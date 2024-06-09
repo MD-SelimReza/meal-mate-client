@@ -32,6 +32,12 @@ const PaymentHistory = () => {
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm text-left">
                       Status
                     </th>
+                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm text-left">
+                      Badge
+                    </th>
+                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm text-left">
+                      Transaction ID
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
