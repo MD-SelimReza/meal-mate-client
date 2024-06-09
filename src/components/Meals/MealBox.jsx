@@ -1,7 +1,8 @@
-import { FaRegEye, FaRegStar } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 import PropTypes from "prop-types";
 import DemoModal from "../Modal/DemoModal";
 import { useState } from "react";
+import { Rating } from "@mui/material";
 
 const MealBox = ({ image, description, rating, price, id }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -36,19 +37,21 @@ const MealBox = ({ image, description, rating, price, id }) => {
       <div className="bg-[#DBDDE0]">
         <div className="pt-1">
           <div className="flex items-center gap-1 justify-center">
-            {Array.from({ length: 5 }, (_, index) => (
-              <p
-                key={index}
-                className={`w-5 h-5 ${index < rating ? " text-red-500" : ""}`}
-              >
-                <FaRegStar />
-              </p>
-            ))}
+            <Rating
+              name="read-only"
+              sx={{
+                fontSize: "20px",
+              }}
+              value={rating ? rating : 3}
+              readOnly
+            />
           </div>
           <div className="p-4">
             <h1 className="text-xl text-gray-600">
-              {description ? description : "Description"}
-              <h1 className="text-lg font-semibold text-gray-700">${price}</h1>
+              {description.slice(0, 20)}
+              <h1 className="text-lg font-semibold text-gray-700">
+                ${price} 100
+              </h1>
             </h1>
           </div>
         </div>

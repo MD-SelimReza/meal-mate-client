@@ -6,7 +6,7 @@ const usePaginatedQuery = (endpoint, queryKey, itemsPerPage = 10) => {
   const axiosSecure = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: async () => {
       const { data } = await axiosSecure(
         `${endpoint}?page=${currentPage}&size=${itemsPerPage}`,
@@ -27,11 +27,12 @@ const usePaginatedQuery = (endpoint, queryKey, itemsPerPage = 10) => {
   const totalPages = data?.totalPages || 0;
 
   return {
-    data: data?.items || [],
+    data: data,
     isLoading,
     currentPage,
     setCurrentPage,
     totalPages,
+    refetch,
   };
 };
 

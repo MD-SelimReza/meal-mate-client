@@ -188,8 +188,8 @@ const AddMealForm = () => {
               <span className="text-red-500">Price is required</span>
             )}
           </div>
-          <div className="flex gap-4">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="sm:overflow-hidden">
               <label className="block mb-2 font-semibold">Post Time</label>
               <Controller
                 control={control}

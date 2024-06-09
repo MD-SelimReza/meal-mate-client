@@ -1,10 +1,20 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
-import useMeal from "../../../hooks/useMeal";
 import { CircularProgress } from "@mui/material";
 import ServeMealDataRow from "../../../components/TableRows/ServeMealDataRow";
+import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
+import CustomPagination from "../../../components/Pagination/CustomPagination";
 
 const ServeMeals = () => {
-  const { meals, isLoading } = useMeal();
+  const {
+    data,
+    isLoading: mealsLoading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = usePaginatedQuery("/meals", "meals");
+
+  const meals = data?.items;
+  console.log(meals);
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -12,7 +22,7 @@ const ServeMeals = () => {
         title="Serve Meals Overview"
         description="Manage requested meals in a table format, including meal titles, user emails, names, statuses, and an option to serve each meal."
       />
-      {isLoading ? (
+      {mealsLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
@@ -50,6 +60,11 @@ const ServeMeals = () => {
           </div>
         </div>
       )}
+      <CustomPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+      />
     </div>
   );
 };

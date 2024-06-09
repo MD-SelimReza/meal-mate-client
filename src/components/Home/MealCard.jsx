@@ -16,7 +16,9 @@ const MealCard = ({ image, title, rating, price, id }) => {
       </div>
       <div className="border border-t-0">
         <div className="p-4 md:p-4 flex justify-between">
-          <h1 className="text-xl font-bold text-gray-700">{title}</h1>
+          <h1 className="text-lg text-gray-700">
+            {title.length > 10 ? title.slice(0, 10) : title}
+          </h1>
           <p className="text-gray-600 flex gap-2 items-center">
             <span className="rounded-full text-red-500 bg-yellow-400">
               <FaRegStar />
@@ -25,7 +27,7 @@ const MealCard = ({ image, title, rating, price, id }) => {
           </p>
         </div>
         <div className="flex justify-between pt-0 p-4 items-center">
-          <h1 className="text-lg font-bold text-gray-700">${price}</h1>
+          <h1 className="text-lg font-semibold text-gray-700">${price}</h1>
           <Link
             to={`/meal/${id}`}
             className="bg-yellow-500 text-blue-800 px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors duration-300"

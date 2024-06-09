@@ -5,7 +5,7 @@ const UpcomingMealCard = ({ image, description, rating, id }) => {
   return (
     <div
       to={`/meal/${id}`}
-      className="overflow-hidden bg-white rounded-lg shadow-lg group"
+      className="overflow-hidden max-w-72 bg-white rounded-lg shadow-lg group"
     >
       <div className="h-[200px] relative">
         <img
@@ -31,7 +31,7 @@ const UpcomingMealCard = ({ image, description, rating, id }) => {
         <div className="flex justify-between mb-2">
           <div>
             <h1 className="text-xl text-gray-600">
-              {description ? description : "Description"}
+              {description.slice(0, 20)}
             </h1>
           </div>
           <div className="flex items-center gap-2 justify-center">

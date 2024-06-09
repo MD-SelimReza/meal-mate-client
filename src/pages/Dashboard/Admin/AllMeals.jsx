@@ -6,14 +6,14 @@ import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 
 const AllMeals = () => {
   const {
-    data: meals,
+    data,
     isLoading: mealsLoading,
     currentPage,
     setCurrentPage,
     totalPages,
   } = usePaginatedQuery("/meals", "meals");
 
-  console.log(meals);
+  const meals = data?.items;
 
   return (
     <div className="container mx-auto px-4 sm:px-8">

@@ -1,10 +1,20 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
-import useMeal from "../../../hooks/useMeal";
 import { CircularProgress } from "@mui/material";
 import UsersReviewDataRow from "../../../components/TableRows/UsersReviewDataRow";
+import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
+import CustomPagination from "../../../components/Pagination/CustomPagination";
 
 const UsersReviews = () => {
-  const { meals, isLoading } = useMeal();
+  const {
+    data,
+    isLoading: reviewsLoading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = usePaginatedQuery("/meals", "meals");
+
+  const meals = data?.items;
+  console.log(meals);
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -12,7 +22,7 @@ const UsersReviews = () => {
         title="Users Reviews"
         description="Browse through all reviews in a table format, including details such as meal title, likes, number of reviews, and options to delete or view each meal."
       />
-      {isLoading ? (
+      {reviewsLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
@@ -38,7 +48,7 @@ const UsersReviews = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {meals.map((meal) => (
+                  {meals?.map((meal) => (
                     <UsersReviewDataRow key={meal._id} meal={meal} />
                   ))}
                 </tbody>
@@ -47,6 +57,11 @@ const UsersReviews = () => {
           </div>
         </div>
       )}
+      <CustomPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+      />
     </div>
   );
 };

@@ -7,10 +7,10 @@ const ServeMealDataRow = ({ meal }) => {
         {meal?.title}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        ${meal?.price}
+        {meal?.name || "Selim"}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        {meal?.rating}
+        {meal?.email || "random@custom.com"}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
         Pending

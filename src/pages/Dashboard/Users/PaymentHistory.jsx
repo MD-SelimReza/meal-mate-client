@@ -41,7 +41,7 @@ const PaymentHistory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {meals.map((meal) => (
+                  {meals?.map((meal) => (
                     <PaymentDataRow key={meal._id} meal={meal} />
                   ))}
                 </tbody>

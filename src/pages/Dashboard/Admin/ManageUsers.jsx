@@ -1,23 +1,20 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
 import { CircularProgress } from "@mui/material";
 import UsersDataRow from "../../../components/TableRows/UsersDataRow";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
+import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
+import CustomPagination from "../../../components/Pagination/CustomPagination";
 
 const ManageUsers = () => {
-  const axiosSecure = useAxiosSecure();
-
   const {
-    data: users = [],
+    data: users,
     isLoading: usersLoading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
     refetch,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const { data } = await axiosSecure("/users");
-      return data;
-    },
-  });
+  } = usePaginatedQuery("/users", "users");
+
+  console.log(users);
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -40,7 +37,7 @@ const ManageUsers = () => {
                       Username
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm text-left">
-                      User-email
+                      User Email
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm text-left">
                       Status
@@ -64,6 +61,11 @@ const ManageUsers = () => {
           </div>
         </div>
       )}
+      <CustomPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+      />
     </div>
   );
 };

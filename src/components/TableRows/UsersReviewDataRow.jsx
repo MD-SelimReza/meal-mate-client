@@ -1,6 +1,7 @@
 import DeleteOutlineIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const UsersReviewDataRow = ({ meal }) => {
   return (
@@ -9,10 +10,10 @@ const UsersReviewDataRow = ({ meal }) => {
         {meal?.title}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        ${meal?.price}
+        {meal?.likes || 5}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        {meal?.rating}
+        {meal?.reviews?.length}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex gap-3 justify-center">
@@ -22,12 +23,13 @@ const UsersReviewDataRow = ({ meal }) => {
           >
             <DeleteOutlineIcon />
           </button>
-          <button
+          <Link
+            to={`/meal/${meal._id}`}
             className="text-green-500 p-2 rounded bg-green-200 hover:text-green-700 focus:outline-none"
             title="View"
           >
             <VisibilityIcon />
-          </button>
+          </Link>
         </div>
       </td>
     </tr>

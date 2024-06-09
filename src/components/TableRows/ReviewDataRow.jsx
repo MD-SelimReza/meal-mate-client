@@ -3,17 +3,17 @@ import DeleteOutlineIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PropTypes from "prop-types";
 
-const ReviewDataRow = ({ meal }) => {
+const ReviewDataRow = ({ meal, reviews }) => {
   return (
     <tr key={meal._id} className="hover:bg-gray-100">
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         {meal?.title}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        ${meal?.price}
+        {meal?.likes || 5}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        {meal?.rating}
+        {reviews[0]?.comment}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex gap-3 justify-center">
@@ -43,6 +43,7 @@ const ReviewDataRow = ({ meal }) => {
 
 ReviewDataRow.propTypes = {
   meal: PropTypes.object.isRequired,
+  reviews: PropTypes.array,
 };
 
 export default ReviewDataRow;

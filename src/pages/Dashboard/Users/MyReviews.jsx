@@ -1,15 +1,23 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
-import useMeal from "../../../hooks/useMeal";
 import ReviewDataRow from "../../../components/TableRows/ReviewDataRow";
 import { CircularProgress } from "@mui/material";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
-import Loader from "../../../components/shared/Loader";
+import CustomPagination from "../../../components/Pagination/CustomPagination";
+import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 
 const MyReviews = () => {
   const { user } = useAuth();
-  const { meals, isLoading } = useMeal();
+  const {
+    data,
+    isLoading: mealsLoading,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = usePaginatedQuery("/meals", "meals");
+
+  const meals = data?.items;
   const axiosSecure = useAxiosSecure();
 
   const { data: reviews, isLoading: reviewsLoading } = useQuery({
@@ -21,8 +29,6 @@ const MyReviews = () => {
     },
   });
 
-  if (reviewsLoading) return <Loader />;
-
   console.log(reviews);
 
   return (
@@ -31,7 +37,7 @@ const MyReviews = () => {
         title="My Reviews Dashboard"
         description="Explore your reviews in a table showcasing meal titles, likes, your review, options to edit or delete, and buttons to view meals."
       />
-      {isLoading ? (
+      {mealsLoading && reviewsLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
         </div>
@@ -45,10 +51,10 @@ const MyReviews = () => {
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-left">
                       Title
                     </th>
-                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
+                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-[10%] text-center">
                       Likes
                     </th>
-                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
+                    <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-[40%] text-center">
                       Reviews
                     </th>
                     <th className="px-6 py-3 bg-gray-200 text-gray-600 uppercase font-bold text-sm w-1/4 text-center">
@@ -57,8 +63,12 @@ const MyReviews = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {meals.map((meal) => (
-                    <ReviewDataRow key={meal._id} meal={meal} />
+                  {meals?.map((meal) => (
+                    <ReviewDataRow
+                      key={meal._id}
+                      meal={meal}
+                      reviews={reviews}
+                    />
                   ))}
                 </tbody>
               </table>
@@ -66,6 +76,11 @@ const MyReviews = () => {
           </div>
         </div>
       )}
+      <CustomPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+      />
     </div>
   );
 };
