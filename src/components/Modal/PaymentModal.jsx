@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
 
-const PaymentModal = ({ price, isOpen, onRequestClose }) => {
+const PaymentModal = ({ price, title, isOpen, onRequestClose }) => {
   if (!isOpen) return null;
   return (
     <Elements stripe={stripePromise}>
@@ -13,6 +13,7 @@ const PaymentModal = ({ price, isOpen, onRequestClose }) => {
         price={price}
         isOpen={isOpen}
         onRequestClose={onRequestClose}
+        title={title}
       ></CheckOutForm>
     </Elements>
   );
@@ -22,6 +23,7 @@ PaymentModal.propTypes = {
   price: PropTypes.number,
   isOpen: PropTypes.func,
   onRequestClose: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default PaymentModal;

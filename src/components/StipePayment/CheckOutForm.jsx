@@ -4,15 +4,16 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-const CheckOutForm = ({ price, onRequestClose }) => {
+const CheckOutForm = ({ price, title, onRequestClose }) => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState();
-  const [transactionId, setTransactionId] = useState();
   const stripe = useStripe();
   const elements = useElements();
   const axiosCommon = useAxiosCommon();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (price && price > 0) {
@@ -34,17 +35,14 @@ const CheckOutForm = ({ price, onRequestClose }) => {
       return;
     }
 
-    // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
 
     if (error) {
-      console.log("[error]", error);
       setError(error.message);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
       setError("");
     }
     // confirm payment
@@ -60,21 +58,26 @@ const CheckOutForm = ({ price, onRequestClose }) => {
       });
 
     if (confirmError) {
-      console.log(confirmError);
+      setError(confirmError.message);
     } else {
-      console.log("paymentIntent", paymentIntent);
-      setTransactionId(paymentIntent.id);
+      setError("");
 
       const payment = {
         email: user?.email,
         transactionId: paymentIntent.id,
-        date: new Date(),
-        status: "pending",
+        date: new Date().toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+        badge: title.split(" ")[0],
+        package: title,
+        amount: price,
       };
-      const res = await axiosCommon.post("/payments", payment);
-      console.log("payment save", res.data);
-      toast.success("Thank you for the payment");
+      await axiosCommon.post("/payments", payment);
+      toast.success(`Successfully purchase the ${title}`);
       onRequestClose();
+      navigate("/dashboard/payment-history");
     }
   };
 
@@ -107,25 +110,23 @@ const CheckOutForm = ({ price, onRequestClose }) => {
             className="p-4 border rounded mb-4"
           />
         </div>
+        {error && <p className="text-red-500 mb-2">{error}</p>}
         <hr className="mb-4" />
-        {error && <p className="text-red-500">{error}</p>}
-        <div className="px-14 pt-4 pb-8 flex justify-between">
+        <div className="flex mt-4 pb-8 justify-center gap-5">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+            className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
           >
             Confirm
           </button>
           <button
+            type="button"
             onClick={onRequestClose}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
             Cancel
           </button>
         </div>
-        {transactionId && (
-          <p className="text-green-500">Your transaction id: {transactionId}</p>
-        )}
       </form>
     </div>
   );
@@ -134,6 +135,7 @@ const CheckOutForm = ({ price, onRequestClose }) => {
 CheckOutForm.propTypes = {
   price: PropTypes.number,
   onRequestClose: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default CheckOutForm;

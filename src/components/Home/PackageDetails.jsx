@@ -63,6 +63,7 @@ const PackageDetails = () => {
         price={price}
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
+        title={title}
       />
     </div>
   );
