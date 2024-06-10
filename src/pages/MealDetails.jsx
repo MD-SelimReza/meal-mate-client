@@ -1,20 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosCommon from "../hooks/useAxiosCommon";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useState } from "react";
 import ReviewSection from "../components/MealDetailPage/ReviewSection";
 import { Helmet } from "react-helmet-async";
 import Loader from "../components/shared/Loader";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MealDetails = () => {
+  const { id: mealId } = useParams();
+  const axiosSecure = useAxiosSecure();
   const [liked, setLiked] = useState(false);
 
-  const toggleLike = () => {
-    setLiked(!liked);
-  };
-  const { id: mealId } = useParams();
-  const axiosCommon = useAxiosCommon();
   const {
     data: meal = [],
     isLoading: mealLoading,
@@ -22,10 +19,23 @@ const MealDetails = () => {
   } = useQuery({
     queryKey: ["meal", mealId],
     queryFn: async () => {
-      const { data } = await axiosCommon(`/meal/${mealId}`);
+      const { data } = await axiosSecure(`/meal/${mealId}`);
       return data;
     },
   });
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async ({ mealId }) => {
+      const { data } = await axiosSecure.put(`/like-meal/${mealId}`);
+      return data;
+    },
+  });
+
+  const toggleLike = async () => {
+    setLiked(!liked);
+    await mutateAsync({ mealId });
+    refetch();
+  };
 
   if (mealLoading) return <Loader />;
 
@@ -78,11 +88,14 @@ const MealDetails = () => {
                 {meal?.postTime}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Availability:</span>{" "}
+                <span className="font-semibold">Availability:</span>
                 <span className="text-green-600">In Stock</span>
               </p>
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">Stock Count:</span> 150
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-semibold">Like:</span> {meal?.likes}
               </p>
             </div>
             <div className="mt-6 flex items-center">

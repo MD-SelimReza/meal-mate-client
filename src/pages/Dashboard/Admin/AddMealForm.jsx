@@ -104,9 +104,9 @@ const AddMealForm = () => {
       ingredients: ingredients.split(","),
       description: description,
       price: price,
-      // likes: likes,
+      likes: likes,
       postTime: postTime,
-      // reviews: reviews,
+      reviews: reviews,
     };
     console.table(mealData);
     try {
@@ -278,7 +278,7 @@ const AddMealForm = () => {
           )}
         </div>
 
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block mb-2 font-semibold">Likes</label>
             <input
@@ -312,7 +312,7 @@ const AddMealForm = () => {
           {errors.comment && (
             <span className="text-red-500">Review is required</span>
           )}
-        </div> */}
+        </div>
 
         <button
           type="submit"

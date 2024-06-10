@@ -51,12 +51,9 @@ const Navbar = () => {
               </div>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
-                  <Link
-                    to="/"
-                    className="block px-4 py-2 text-blue-800 hover:bg-gray-200"
-                  >
-                    Profile
-                  </Link>
+                  <div className="block px-4 py-2 text-blue-800 hover:bg-gray-200">
+                    {user?.displayName}
+                  </div>
                   <Link
                     to="/dashboard"
                     className="block px-4 py-2 text-blue-800 hover:bg-gray-200"
