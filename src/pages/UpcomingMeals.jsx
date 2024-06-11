@@ -10,7 +10,7 @@ const UpcomingMeals = () => {
         <title>Upcoming Meals</title>
       </Helmet>
       <div className="flex flex-wrap justify-center gap-x-6 gap-y-8">
-        {meals.map((meal) => (
+        {meals?.map((meal) => (
           <UpcomingMealCard
             key={meal._id}
             image={

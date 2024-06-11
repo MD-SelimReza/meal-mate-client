@@ -1,9 +1,19 @@
 import DeleteOutlineIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import DeleteModal from "../Modal/DeleteModal";
 
-const RequestedMealDataRow = ({ meal }) => {
-  console.log(meal?.reviews.length);
+const RequestedMealDataRow = ({ meal, handleDelete }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
     <tr key={meal._id} className="hover:bg-gray-100">
@@ -31,11 +41,18 @@ const RequestedMealDataRow = ({ meal }) => {
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
         <button
+          onClick={openModal}
           title="Delete"
           className="text-red-500 p-2 rounded bg-red-100 hover:text-red-700"
         >
           <DeleteOutlineIcon />
         </button>
+        <DeleteModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          handleDelete={handleDelete}
+          id={meal?._id}
+        />
       </td>
     </tr>
   );
@@ -43,6 +60,7 @@ const RequestedMealDataRow = ({ meal }) => {
 
 RequestedMealDataRow.propTypes = {
   meal: PropTypes.object.isRequired,
+  handleDelete: PropTypes.func,
 };
 
 export default RequestedMealDataRow;

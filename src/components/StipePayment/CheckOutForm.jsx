@@ -18,8 +18,8 @@ const CheckOutForm = ({ price, title, onRequestClose }) => {
   useEffect(() => {
     if (price && price > 0) {
       axiosCommon.post("/create-payment-intent", { price }).then((res) => {
-        console.log(res.data.clientSecret);
-        setClientSecret(res.data.clientSecret);
+        console.log(res?.data?.clientSecret);
+        setClientSecret(res?.data?.clientSecret);
       });
     }
   }, [axiosCommon, price]);

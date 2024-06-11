@@ -2,10 +2,11 @@ import SectionTitle from "../../../components/shared/SectionTitle";
 import ReviewDataRow from "../../../components/TableRows/ReviewDataRow";
 import { CircularProgress } from "@mui/material";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
 import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
+import toast from "react-hot-toast";
 
 const MyReviews = () => {
   const { user } = useAuth();
@@ -15,6 +16,7 @@ const MyReviews = () => {
     currentPage,
     setCurrentPage,
     totalPages,
+    refetch,
   } = usePaginatedQuery("/meals", "meals");
 
   const meals = data?.items;
@@ -29,7 +31,47 @@ const MyReviews = () => {
     },
   });
 
-  console.log(reviews);
+  const { mutateAsync: updateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/request-meal/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const { mutateAsync: deleteAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/request-meal/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const handleUpdate = async (id) => {
+    console.log(id);
+    try {
+      await updateAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    console.log(id);
+    try {
+      await deleteAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -68,6 +110,8 @@ const MyReviews = () => {
                       key={meal._id}
                       meal={meal}
                       reviews={reviews}
+                      handleUpdate={handleUpdate}
+                      handleDelete={handleDelete}
                     />
                   ))}
                 </tbody>

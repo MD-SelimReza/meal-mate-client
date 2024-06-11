@@ -21,7 +21,7 @@ const PaymentModal = ({ price, title, isOpen, onRequestClose }) => {
 
 PaymentModal.propTypes = {
   price: PropTypes.number,
-  isOpen: PropTypes.func,
+  isOpen: PropTypes.bool,
   onRequestClose: PropTypes.func,
   title: PropTypes.string,
 };

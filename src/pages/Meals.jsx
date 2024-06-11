@@ -21,12 +21,10 @@ const Meals = () => {
   const [search, setSearch] = useState("");
   const [searchText, setSearchText] = useState("");
 
-  console.log(searchText);
-
-  const { data, isLoading: mealsLoading } = useQuery({
+  const { data: meals = [], isLoading: mealsLoading } = useQuery({
     queryFn: async () => {
       const { data } = await axiosCommon(
-        `/meals?filter=${filter}&search=${search}&sort=${sort}`
+        `/all-meals?filter=${filter}&search=${search}&sort=${sort}`
       );
       return data;
     },
@@ -46,7 +44,6 @@ const Meals = () => {
   };
 
   if (mealsLoading) return <Loader />;
-  const meals = data.items;
 
   return (
     <div className="my-10">

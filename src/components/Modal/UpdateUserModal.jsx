@@ -87,7 +87,7 @@ const UpdateUserModal = ({ user, isOpen, onRequestClose, handleBadge }) => {
 UpdateUserModal.propTypes = {
   user: PropTypes.object,
   onRequestClose: PropTypes.func,
-  isOpen: PropTypes.func,
+  isOpen: PropTypes.bool,
   handleBadge: PropTypes.func,
 };
 

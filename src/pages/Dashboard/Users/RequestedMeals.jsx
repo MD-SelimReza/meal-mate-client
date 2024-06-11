@@ -3,17 +3,41 @@ import SectionTitle from "../../../components/shared/SectionTitle";
 import { CircularProgress } from "@mui/material";
 import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const RequestedMeals = () => {
+  const axiosSecure = useAxiosSecure();
   const {
-    data,
+    data: meals = [],
     isLoading: mealsLoading,
     currentPage,
     setCurrentPage,
     totalPages,
-  } = usePaginatedQuery("/meals", "meals");
+    refetch,
+  } = usePaginatedQuery("requestMeals", "requestMeals");
 
-  const meals = data?.items;
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/request-meal/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const handleDelete = async (id) => {
+    console.log(id);
+    try {
+      await mutateAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -50,8 +74,12 @@ const RequestedMeals = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {meals.map((meal) => (
-                    <RequestedMealDataRow key={meal._id} meal={meal} />
+                  {meals?.map((meal) => (
+                    <RequestedMealDataRow
+                      key={meal._id}
+                      meal={meal}
+                      handleDelete={handleDelete}
+                    />
                   ))}
                 </tbody>
               </table>

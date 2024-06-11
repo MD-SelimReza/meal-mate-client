@@ -3,17 +3,64 @@ import { CircularProgress } from "@mui/material";
 import MealDataRow from "../../../components/TableRows/MealDataRow";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
 import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const AllMeals = () => {
+  const axiosSecure = useAxiosSecure();
   const {
     data,
     isLoading: mealsLoading,
     currentPage,
     setCurrentPage,
     totalPages,
+    refetch,
   } = usePaginatedQuery("/meals", "meals");
 
   const meals = data?.items;
+
+  const { mutateAsync: updateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/meal/update/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const { mutateAsync: deleteAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/meal/delete/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const handleUpdate = async (id) => {
+    console.log(id);
+    try {
+      await updateAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    console.log(id);
+    try {
+      await deleteAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -51,7 +98,12 @@ const AllMeals = () => {
                 </thead>
                 <tbody>
                   {meals.map((meal) => (
-                    <MealDataRow key={meal._id} meal={meal} />
+                    <MealDataRow
+                      key={meal._id}
+                      meal={meal}
+                      handleUpdate={handleUpdate}
+                      handleDelete={handleDelete}
+                    />
                   ))}
                 </tbody>
               </table>

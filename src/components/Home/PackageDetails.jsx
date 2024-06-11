@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import useAxiosCommon from "../../hooks/useAxiosCommon";
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import PaymentModal from "../Modal/PaymentModal";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const PackageDetails = () => {
-  const axiosCommon = useAxiosCommon();
+  const axiosSecure = useAxiosSecure();
   const { package_name } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -21,7 +21,7 @@ const PackageDetails = () => {
   const { data: packageItem = {} } = useQuery({
     queryKey: ["packageItem", package_name],
     queryFn: async () => {
-      const { data } = await axiosCommon(`/checkout/${package_name}`);
+      const { data } = await axiosSecure(`/checkout/${package_name}`);
       return data;
     },
   });
