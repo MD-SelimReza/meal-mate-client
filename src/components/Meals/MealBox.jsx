@@ -4,7 +4,7 @@ import DemoModal from "../Modal/DemoModal";
 import { useState } from "react";
 import { Rating } from "@mui/material";
 
-const MealBox = ({ image, description, rating, price, id }) => {
+const MealBox = ({ meal, image }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
@@ -17,11 +17,16 @@ const MealBox = ({ image, description, rating, price, id }) => {
 
   return (
     <div
-      to={`/meal/${id}`}
+      to={`/meal/${meal?._id}`}
       className="overflow-hidden bg-white rounded-sm shadow-lg group"
     >
       <div className="min-w-[250px] relative">
-        <img src={image} alt="" width="250px" className="object-cover" />
+        <img
+          src={meal?.image ? meal?.image : image}
+          alt=""
+          width="250px"
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gray-500 opacity-20"></div>
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
@@ -31,7 +36,12 @@ const MealBox = ({ image, description, rating, price, id }) => {
           >
             <FaRegEye className="size-5" />
           </button>
-          <DemoModal isOpen={modalIsOpen} onRequestClose={closeModal} />
+          <DemoModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            image={image}
+            meal={meal}
+          />
         </div>
       </div>
       <div className="bg-[#DBDDE0]">
@@ -42,15 +52,15 @@ const MealBox = ({ image, description, rating, price, id }) => {
               sx={{
                 fontSize: "20px",
               }}
-              value={rating ? rating : 3}
+              value={meal?.reviews[0]?.rating}
               readOnly
             />
           </div>
           <div className="p-4">
             <h1 className="text-xl text-gray-600">
-              {description.slice(0, 20)}
+              {meal?.description.slice(0, 20)}
               <h1 className="text-lg font-semibold text-gray-700">
-                ${price} 100
+                ${meal?.price} 100
               </h1>
             </h1>
           </div>
@@ -61,11 +71,8 @@ const MealBox = ({ image, description, rating, price, id }) => {
 };
 
 MealBox.propTypes = {
-  image: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
+  meal: PropTypes.object.isRequired,
+  image: PropTypes.string,
 };
 
 export default MealBox;

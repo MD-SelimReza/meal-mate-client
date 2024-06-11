@@ -40,7 +40,7 @@ const SignUp = () => {
 
   const handleSignUp = async (data) => {
     const { name, email, image, password } = data;
-    const image_url = await imageUpload(image[0]);
+    const image_url = await imageUpload(image);
 
     try {
       const result = await createUser(email, password);

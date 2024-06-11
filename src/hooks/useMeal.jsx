@@ -14,6 +14,7 @@ const useMeal = () => {
   });
 
   const meals = data?.items;
+  console.log(meals);
 
   return { meals, mealsLoading };
 };

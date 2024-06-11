@@ -63,8 +63,7 @@ const AddMealForm = () => {
     },
 
     onSuccess: () => {
-      console.log("Data saved successfully");
-      toast.success("Room Added Successfully!");
+      toast.success("Meal Added Successfully!");
     },
   });
 

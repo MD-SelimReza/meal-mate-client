@@ -20,7 +20,9 @@ const Profile = () => {
         <div className="w-full mb-4 rounded-t-lg h-40 bg-[#015b65]"></div>
         <div className="flex flex-col items-center justify-center -mt-12">
           <div className="relative -mt-16">
-            <p className="mb-4 capitalize text-xl text-center">{badge}</p>
+            <p className="mb-4 capitalize text-xl text-center">
+              {user?.email === "rezaselim405@gmail.com" ? "Admin" : badge}
+            </p>
             <img
               alt="profile"
               src={user?.photoURL}

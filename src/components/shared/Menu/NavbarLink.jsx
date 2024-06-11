@@ -7,8 +7,8 @@ const NavbarLink = ({ address, label }) => {
       to={address}
       className={({ isActive }) =>
         isActive
-          ? "text-yellow-400 border-b border-yellow-400"
-          : "hover:text-yellow-400 opacity-75"
+          ? "text-blue-400 border-b border-blue-400"
+          : "hover:text-blue-400 opacity-75"
       }
     >
       {label}

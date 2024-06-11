@@ -24,7 +24,9 @@ import useAdmin from "../../hooks/useAdmin";
 import Loader from "../../components/shared/Loader";
 import { Helmet } from "react-helmet-async";
 import ListItemLink from "../../components/Dashboard/ListItem/ListItemLink";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
+  Badge,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -56,7 +58,11 @@ const Home = () => {
       </Helmet>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar
+          sx={{
+            pr: "24px",
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -69,9 +75,20 @@ const Home = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}
+          >
             <Logo />
           </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

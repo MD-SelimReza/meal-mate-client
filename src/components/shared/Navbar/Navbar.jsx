@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { FaTimes, FaBars } from "react-icons/fa";
 import Container from "../Container";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import Logo from "../Logo";
 import NavbarLink from "../Menu/NavbarLink";
 import CommonBtn from "../Button/CommonBtn";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge } from "@mui/material";
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
@@ -18,6 +20,11 @@ const Navbar = () => {
       <NavbarLink address="/about" label="About Us" />
       <NavbarLink address="/meals" label="Meals" />
       <NavbarLink address="/upcoming-meals" label="Upcoming Meals" />
+      <NavLink className="text-blue-400">
+        <Badge badgeContent={4} color="primary">
+          <NotificationsIcon />
+        </Badge>
+      </NavLink>
     </>
   );
 

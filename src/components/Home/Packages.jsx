@@ -14,7 +14,7 @@ const Packages = () => {
   });
 
   return (
-    <div>
+    <div id="package">
       <SectionTitle
         title="Explore Our Awesome Packages"
         description="Upgrade to one of our premium packages for enhanced features and benefits."

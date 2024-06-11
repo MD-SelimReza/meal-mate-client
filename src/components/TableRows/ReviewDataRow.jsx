@@ -13,7 +13,7 @@ const ReviewDataRow = ({ meal, reviews }) => {
         {meal?.likes || 5}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-        {reviews[0]?.comment}
+        {reviews[0]?.comment?.slice(0, 50)}...
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div className="flex gap-3 justify-center">

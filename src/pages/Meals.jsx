@@ -34,10 +34,7 @@ const Meals = () => {
                 image={
                   "https://opencart.dostguru.com/FD01/flavoro_02/image/cache/catalog/product/27-543x543.jpg"
                 }
-                id={meal._id}
-                rating={meal.rating}
-                price={meal.price}
-                description={meal.description}
+                meal={meal}
               />
             ))}
         </div>
