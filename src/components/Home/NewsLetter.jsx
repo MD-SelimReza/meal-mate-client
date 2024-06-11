@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const NewsLetter = () => {
   const [email, setEmail] = useState("");
@@ -9,9 +10,8 @@ const NewsLetter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can implement your logic for subscribing the user
-    console.log("Subscribed with email:", email);
-    setEmail(""); // Clear the input field after submission
+    toast.success("Thanks for subscribing!");
+    setEmail("");
   };
 
   return (

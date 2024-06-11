@@ -49,13 +49,13 @@ const MealDetails = () => {
   };
 
   const { mutateAsync } = useMutation({
-    mutationFn: async ({ mealId, like }) => {
-      const { data } = await axiosSecure.put(`/like-meal/${mealId}`, like);
+    mutationFn: async ({ mealId }) => {
+      const { data } = await axiosSecure.put(`/like-meal/${mealId}`);
       return data;
     },
   });
 
-  console.log("Likes-->", likedCount, meal?.likes);
+  console.log(likedCount);
 
   const toggleLike = async () => {
     if (liked) {
@@ -64,10 +64,8 @@ const MealDetails = () => {
       setLikedCount(likedCount + 1);
     }
     setLiked(!liked);
-    const like = {
-      liked,
-    };
-    await mutateAsync({ mealId, like });
+
+    await mutateAsync({ mealId });
     refetch();
   };
 

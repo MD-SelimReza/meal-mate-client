@@ -54,10 +54,10 @@ const BasicTabs = () => {
         {categories.map((category, index) => (
           <CustomTabPanel key={index} value={value} index={index}>
             <div className="flex flex-wrap justify-center gap-5">
-              {(meals.filter((meal) => meal.category === category).length > 0
+              {(meals?.filter((meal) => meal.category === category).length > 0
                 ? meals.filter((meal) => meal.category === category)
                 : meals
-              ).map((meal, mealIndex) => (
+              )?.map((meal, mealIndex) => (
                 <MealCard
                   key={mealIndex}
                   id={meal._id}

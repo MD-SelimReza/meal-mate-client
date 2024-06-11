@@ -4,16 +4,15 @@ import useAxiosCommon from "./useAxiosCommon";
 const useMeal = () => {
   const axiosCommon = useAxiosCommon();
 
-  const { data, isLoading: mealsLoading } = useQuery({
+  const { data: meals = [], isLoading: mealsLoading } = useQuery({
     queryKey: ["meals"],
     queryFn: async () => {
-      const { data } = await axiosCommon.get("/meals");
+      const { data } = await axiosCommon.get("/all-meals");
       console.log(data);
       return data;
     },
   });
 
-  const meals = data?.items;
   console.log(meals);
 
   return { meals, mealsLoading };
