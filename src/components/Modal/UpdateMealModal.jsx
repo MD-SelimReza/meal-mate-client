@@ -7,7 +7,7 @@ const UpdateMealModal = ({ onRequestClose, isOpen }) => {
     <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-25">
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-xl">
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">
-          Update Room Info
+          Update Meal Info
         </h3>
         <form
           //   onSubmit={(e) => {

@@ -33,7 +33,8 @@ const MealDetails = () => {
   const handleRequest = async () => {
     if (badge !== "Bronze") {
       const requestedId = meal?._id;
-      const requestedMeal = { ...meal, requestedId };
+      const status = "Pending";
+      const requestedMeal = { ...meal, requestedId, status };
 
       const { data } = await axiosSecure.post("/request/meal", requestedMeal);
 
@@ -54,8 +55,6 @@ const MealDetails = () => {
       return data;
     },
   });
-
-  console.log(likedCount);
 
   const toggleLike = async () => {
     if (liked) {

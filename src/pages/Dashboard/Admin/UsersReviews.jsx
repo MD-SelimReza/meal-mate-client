@@ -3,18 +3,43 @@ import { CircularProgress } from "@mui/material";
 import UsersReviewDataRow from "../../../components/TableRows/UsersReviewDataRow";
 import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const UsersReviews = () => {
+  const axiosSecure = useAxiosSecure();
   const {
     data,
     isLoading: reviewsLoading,
     currentPage,
     setCurrentPage,
     totalPages,
+    refetch,
   } = usePaginatedQuery("/meals", "meals");
 
   const meals = data?.items;
-  console.log(meals);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/review/delete/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Successfully Delete!");
+    },
+  });
+
+  const handleUpdate = async (id) => {
+    console.log(id);
+    try {
+      await mutateAsync(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
@@ -49,7 +74,11 @@ const UsersReviews = () => {
                 </thead>
                 <tbody>
                   {meals?.map((meal) => (
-                    <UsersReviewDataRow key={meal._id} meal={meal} />
+                    <UsersReviewDataRow
+                      key={meal._id}
+                      meal={meal}
+                      handleUpdate={handleUpdate}
+                    />
                   ))}
                 </tbody>
               </table>
