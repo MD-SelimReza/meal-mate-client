@@ -6,9 +6,12 @@ import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
+import { useState } from "react";
 
 const AllMeals = () => {
   const axiosSecure = useAxiosSecure();
+  const [sort, setSort] = useState("");
   const {
     data,
     isLoading: mealsLoading,
@@ -16,7 +19,7 @@ const AllMeals = () => {
     setCurrentPage,
     totalPages,
     refetch,
-  } = usePaginatedQuery("/meals", "meals");
+  } = usePaginatedQuery("/meals", "meals", sort);
 
   const meals = data?.items;
 
@@ -62,12 +65,60 @@ const AllMeals = () => {
     }
   };
 
+  const handleReset = () => {
+    setSort("");
+  };
+
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <SectionTitle
         title="All Meals Overview"
         description="Browse all meals in a table format, including details such as title, likes, reviews, distributor name, and options to update, delete, or view each meal."
       />
+      <div className="w-full flex justify-center flex-col gap-5 sm:flex-row sm:justify-center sm:items-center sm:gap-5 p-5">
+        <Box sx={{ minWidth: 200 }}>
+          <FormControl fullWidth>
+            <InputLabel id="sort-by-likes-label">Sort By Likes</InputLabel>
+            <Select
+              labelId="sort-by-likes-label"
+              id="sort-by-likes"
+              value={sort}
+              label="Sort By Likes"
+              onChange={(e) => {
+                setSort(e.target.value);
+              }}
+            >
+              <MenuItem value="likes_asc">Ascending Likes</MenuItem>
+              <MenuItem value="likes_desc">Descending Likes</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ minWidth: 200 }}>
+          <FormControl fullWidth>
+            <InputLabel id="sort-by-reviews-label">Sort By Reviews</InputLabel>
+            <Select
+              labelId="sort-by-reviews-label"
+              id="sort-by-reviews"
+              value={sort}
+              label="Sort By Reviews"
+              onChange={(e) => {
+                setSort(e.target.value);
+              }}
+            >
+              <MenuItem value="reviews_asc">Ascending Reviews</MenuItem>
+              <MenuItem value="reviews_desc">Descending Reviews</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <div className="lg:w-auto text-center">
+          <button
+            onClick={handleReset}
+            className="lg:w-auto px-8 py-3 md:rounded text-xs font-medium transition-colors duration-200 sm:text-sm bg-blue-500 hover:bg-blue-600 uppercase text-white"
+          >
+            Reset All
+          </button>
+        </div>
+      </div>
       {mealsLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />

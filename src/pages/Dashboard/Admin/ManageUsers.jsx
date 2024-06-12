@@ -1,18 +1,29 @@
 import SectionTitle from "../../../components/shared/SectionTitle";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import UsersDataRow from "../../../components/TableRows/UsersDataRow";
 import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
+import { useState } from "react";
 
 const ManageUsers = () => {
+  const [search, setSearch] = useState("");
+  const [searchText, setSearchText] = useState("");
+
   const {
-    data: users,
+    data,
     isLoading: usersLoading,
     currentPage,
     setCurrentPage,
     totalPages,
     refetch,
-  } = usePaginatedQuery("/users", "users");
+  } = usePaginatedQuery("/users", "users", search);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearch(searchText);
+  };
+
+  const users = data?.items;
 
   console.log(users);
 
@@ -22,6 +33,26 @@ const ManageUsers = () => {
         title="Manage Users"
         description="View and manage all users in a table."
       />
+      <form
+        className="px-5 flex items-center gap-4 lg:w-3/4 md:w-3/4 mx-auto"
+        onSubmit={handleSearch}
+      >
+        <TextField
+          label="Search By Email or Name"
+          variant="outlined"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+
+        <button
+          type="submit"
+          className="px-6 py-3 text-white sm:text-sm hover:bg-blue-600 rounded border bg-blue-500 border-blue-500"
+        >
+          Search
+        </button>
+      </form>
       {usersLoading ? (
         <div className="flex justify-center items-center h-64">
           <CircularProgress />
@@ -48,7 +79,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {users?.map((user) => (
                     <UsersDataRow
                       key={user._id}
                       user={user}

@@ -24,6 +24,7 @@ const ServeMeals = () => {
   } = usePaginatedQuery("/request-meals", "meals", search);
 
   const meals = data?.items;
+  console.log(meals);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -64,7 +65,7 @@ const ServeMeals = () => {
         onSubmit={handleSearch}
       >
         <TextField
-          label="Search"
+          label="Search By Email or Name"
           variant="outlined"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}

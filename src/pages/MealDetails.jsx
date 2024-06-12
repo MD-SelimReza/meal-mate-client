@@ -8,8 +8,10 @@ import Loader from "../components/shared/Loader";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import useBadge from "../hooks/useBadge";
 import toast from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
 
 const MealDetails = () => {
+  const { user } = useAuth();
   const { id: mealId } = useParams();
   const axiosSecure = useAxiosSecure();
   const [liked, setLiked] = useState(false);
@@ -32,9 +34,13 @@ const MealDetails = () => {
 
   const handleRequest = async () => {
     if (badge !== "Bronze") {
-      const requestedId = meal?._id;
-      const status = "Pending";
-      const requestedMeal = { ...meal, requestedId, status };
+      const addSomeProperty = {
+        requestedId: meal?._id,
+        status: "Pending",
+        userName: user?.displayName,
+        userEmail: user?.email,
+      };
+      const requestedMeal = { ...meal, ...addSomeProperty };
 
       const { data } = await axiosSecure.post("/request/meal", requestedMeal);
 

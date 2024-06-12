@@ -1,23 +1,43 @@
 import RequestedMealDataRow from "../../../components/TableRows/RequestedMealDataRow";
 import SectionTitle from "../../../components/shared/SectionTitle";
 import { CircularProgress } from "@mui/material";
-import usePaginatedQuery from "../../../hooks/usePaginatedQuery";
 import CustomPagination from "../../../components/Pagination/CustomPagination";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 
 const RequestedMeals = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const {
-    data: meals = [],
-    isLoading: mealsLoading,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    refetch,
-  } = usePaginatedQuery("requestMeals", "requestMeals");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
+  const {
+    data,
+    isLoading: mealsLoading,
+    refetch,
+  } = useQuery({
+    queryKey: [user?.email, currentPage],
+    queryFn: async () => {
+      const { data } = await axiosSecure(
+        `request/${user?.email}?page=${currentPage}&size=${itemsPerPage}`,
+        {
+          params: {
+            page: currentPage,
+            size: itemsPerPage,
+          },
+        }
+      );
+      return data;
+    },
+  });
+  console.log(data);
+
+  const meals = data?.meals;
+
+  const totalPages = data?.totalPages || 0;
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
       const { data } = await axiosSecure.delete(`/request-meal/${id}`);

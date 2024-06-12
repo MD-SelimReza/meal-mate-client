@@ -54,6 +54,7 @@ const AddMealForm = () => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm();
 
   const { mutateAsync } = useMutation({
@@ -63,6 +64,7 @@ const AddMealForm = () => {
     },
 
     onSuccess: () => {
+      reset();
       toast.success("Meal Added Successfully!");
     },
   });
