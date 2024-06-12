@@ -63,7 +63,7 @@ const UsersDataRow = ({ user, refetch }) => {
         {user.email}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-        {user?.badge}
+        {user?.email === "support@admin.com" ? "Admin" : user?.badge}
       </td>
       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
         <div

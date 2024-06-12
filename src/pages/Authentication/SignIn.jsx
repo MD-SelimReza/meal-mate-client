@@ -43,21 +43,11 @@ const SignIn = () => {
 
   const handleSignIn = async (data) => {
     const { email, password } = data;
-    if (!/^(?=.*[a-z])(?=.*[A-Z])[A-Za-z]{6,}$/.test(password)) {
-      toast.error(
-        "Password must be 6+ characters with at least one uppercase and one lowercase letter."
-      );
-      return;
-    }
-    try {
-      const result = await signIn(email, password);
+    const result = await signIn(email, password);
 
-      if (result?.user) {
-        toast.success("Sign In Successful");
-        navigate(from);
-      }
-    } catch (err) {
-      toast.error(err?.message);
+    if (result?.user) {
+      toast.success("Sign In Successful");
+      navigate(from);
     }
   };
 

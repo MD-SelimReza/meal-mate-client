@@ -57,20 +57,24 @@ const AuthProvider = ({ children }) => {
   };
 
   // Save user data in db
-  const saveUser = async (user) => {
-    const userInfo = {
-      name: user?.displayName,
-      email: user?.email,
-      image: user?.photoURL,
-      badge: "Bronze",
-    };
-    await axios.post(`${baseURL}/user`, userInfo);
+  const saveUser = async (currentUser) => {
+    console.log(currentUser?.displayName, currentUser?.photoURL);
+    if (currentUser) {
+      const userInfo = {
+        name: currentUser?.displayName,
+        email: currentUser?.email,
+        image: currentUser?.photoURL,
+        badge: "Bronze",
+      };
+      await axios.post(`${baseURL}/user`, userInfo);
+    }
   };
 
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      console.log("currentUser-->", currentUser);
       if (currentUser) {
         await saveUser(currentUser);
         // get token and store client

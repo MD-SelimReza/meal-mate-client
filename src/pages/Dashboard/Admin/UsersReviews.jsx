@@ -32,7 +32,7 @@ const UsersReviews = () => {
     },
   });
 
-  const handleUpdate = async (id) => {
+  const handleDelete = async (id) => {
     console.log(id);
     try {
       await mutateAsync(id);
@@ -77,7 +77,7 @@ const UsersReviews = () => {
                     <UsersReviewDataRow
                       key={meal._id}
                       meal={meal}
-                      handleUpdate={handleUpdate}
+                      handleDelete={handleDelete}
                     />
                   ))}
                 </tbody>

@@ -39,7 +39,7 @@ const UsersReviewDataRow = ({ meal, handleDelete }) => {
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             handleDelete={handleDelete}
-            id={meal?.id}
+            id={meal?._id}
           />
           <Link
             to={`/meal/${meal._id}`}

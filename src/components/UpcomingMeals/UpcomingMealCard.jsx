@@ -16,10 +16,10 @@ const UpcomingMealCard = ({ image, description, rating, id }) => {
         />
         <p className="absolute text-red-600 right-4 top-4">
           <div className="relative">
+            <span className="absolute -top-4 -right-2">1</span>
             <span>
               <FaHeart className="size-5" />
             </span>
-            <span className="absolute -top-4 -right-2">1</span>
           </div>
         </p>
         <div className="absolute inset-0 bg-gray-500 opacity-20"></div>
@@ -41,7 +41,7 @@ const UpcomingMealCard = ({ image, description, rating, id }) => {
             <span>{rating}</span>
           </div>
         </div>
-        <button className="bg-yellow-500 text-blue-800 px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors duration-300">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
           Quick view
         </button>
       </div>

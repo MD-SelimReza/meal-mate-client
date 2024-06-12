@@ -65,7 +65,7 @@ const BasicTabs = () => {
                   image={
                     "https://opencart.dostguru.com/FD01/flavoro_02/image/cache/catalog/product/27-543x543.jpg"
                   }
-                  rating={meal.rating}
+                  rating={meal?.reviews[0]?.rating}
                   description="Description"
                   price={meal.price}
                   onDetailsClick={() => alert(`${meal.title} details`)}
